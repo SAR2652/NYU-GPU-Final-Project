@@ -39,3 +39,20 @@ class GPUProfiler:
             json.dump(json_object, f)
 
         print('JSON File saved as {}.'.format(filepath))
+
+class ParseTreeGenerator:
+    def __init__(self, filename: str):
+        result = subprocess.run(["clang", "-Xclang", "-ast-dump", "-fsyntax-only", filename], stdout = subprocess.PIPE)
+        self.content = result.stdout.decode('utf-8')
+
+    def getParseTreeString(self):
+        return self.content
+
+    def saveParseTreeText(self, filepath = 'parse_tree.txt'):
+        if filepath[-4:] != '.txt':
+            print('Incorrect File Extension!')
+            return
+        with open(filepath, 'w') as f:
+            f.write(self.content)
+        print('Saved Parse Tree as {}.'.format(filepath))
+

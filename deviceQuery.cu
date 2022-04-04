@@ -32,7 +32,7 @@ cudaProfilerStart();
      printf("Compute Capability=%d.%d\n",dev.major, dev.minor);
      printf("Total Global Memory=%ld\n", dev.totalGlobalMem/1024);
      printf("Shared Memory per Block=%d\n",dev.sharedMemPerBlock);
-     printf("Registers pre Block=%d\n", dev.regsPerBlock);
+     printf("Registers per Block=%d\n", dev.regsPerBlock);
      printf("Warp Size=%d\n", dev.warpSize);
      printf("Maximum Threads per Block=%d\n",dev.maxThreadsPerBlock);
      printf("Thread Dimension Z=%d\n", dev.maxThreadsDim[0]);
