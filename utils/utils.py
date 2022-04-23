@@ -6,6 +6,7 @@ class GPUProfiler:
         result = subprocess.run('./getDeviceProp.sh', stdout = subprocess.PIPE)
         self.content = result.stdout.decode('utf-8')
         self.data = None
+        self.device_name = None
     
     def getDevicePropDict(self):
         if self.data != None:
@@ -19,6 +20,8 @@ class GPUProfiler:
                 current_device = 'device:{}'.format(value)
                 self.data[current_device] = dict()
             else:
+                if key == 'Device Name':
+                    self.device_name = '_'.join(value.split(' '))
                 if any(c.isalpha() for c in value):
                     self.data[current_device][key] = value
                 else:
@@ -30,7 +33,8 @@ class GPUProfiler:
         self.data = self.getDevicePropDict()
         return json.dumps(self.data, indent = 4)
 
-    def saveAsJSON(self, filepath = 'gpu_details.json'):
+    def saveAsJSON(self):
+        filepath = 'gpu_details_{}.json'.format(self.device_name)
         json_object = self.getDevicePropJSON()
         if filepath[-5:] != '.json':
             print('Incorrect File Extension!')
