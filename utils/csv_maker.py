@@ -4,52 +4,72 @@ import pandas as pd
 
 args = sys.argv
 
-df = pd.read_csv(args[1])   # task speedup file
-task = args[1].split('/')[1].split('_')[0]
+task = args[1]
+task_name = task.split('/')[1]
+gpu_folder = args[2]    # GPU Info folder
+bow_file = args[3]
 
+raw_files = sorted([file for file in os.listdir(task) if 'raw' in file and file.endswith('.csv')])
+prof_files = sorted([file for file in os.listdir(task) if 'prof' in file and file.endswith('.csv')])
+gpu_info_files = sorted([file for file in os.listdir(gpu_folder)])
 
-if '.csv' in task:
-    task = re.sub(r'\.csv', '', task)
+# Store DataFrames for Concatenation
+result = []
 
-df.columns = ['Dimensions', 'Blocks', 'Threads', 'Time']
+for i in range(len(raw_files)):
+    """Raw Computations File"""
+    raw_file = os.path.join(task, raw_files[i])
+    df = pd.read_csv(raw_file)
+    df.columns = ['Dimensions', 'Blocks', 'Threads', 'Time']
+    strs = df[['Dimensions', 'Threads', 'Time']][df['Threads'] == 1]
+    indices = strs.index.tolist()
 
-strs = df[['Dimensions', 'Threads', 'Time']][df['Threads'] == 1]
-indices = strs.index.tolist()
+    speedup = df['Time'].tolist()
+    times = df['Time'].tolist()
+    count = 0
+    for j in range(len(speedup)):
+        if j > 0 and j in indices == 0:
+            count += 1
+        speedup[j] /= times[indices[count]]
 
-# In[31]:
+    df['Speedup'] = np.array(speedup).T
 
+    """Profiling File"""
+    prof_file = os.path.join(task, prof_files[i])
+    pf = pd.read_csv(prof_file)
+    cols = ['Time', 'Avg', 'Min', 'Max', 'Name']
+    pf = pf[cols]
 
-speedup = df['Time'].tolist()
-times = df['Time'].tolist()
-count = 0
-for i in range(len(speedup)):
-    if i > 0 and i % 11 == 0:
-        count += 1
-    speedup[i] /= times[indices[count]]
+    pf.dropna(inplace= True)
 
-df['Speedup'] = np.array(speedup).T
+    relevant = ['[CUDA memcpy DtoH]', '[CUDA memcpy HtoD]', 'cudaMemcpy', 'cudaMalloc', 'cudaFree']
 
-f = open(args[2])    # GPU Info file
-data = json.load(f)
-gpu_dict = json.loads(data)
+    for row in pf.values:
+        if row[-1] in relevant:
+            for j in range(len(cols[:-1])):
+                df[row[-1] + ' ' + cols[j]] = np.array([row[j]] * df.shape[0]).T
+    
+    """GPU Details File"""
+    gpu_file = os.path.join(gpu_folder, gpu_info_files[i])
+    f = open(gpu_file).read()
+    t = json.loads(f)
+    gpu_dict = json.loads(t)
+    for key, value in gpu_dict['device:0'].items():
+        df[key] = np.array([value for i in range(df.shape[0])]).T
 
-device_name = None
+    """Bag of Words File"""
+    f = open(bow_file)
+    data = json.load(f)
+    bow_dict = json.loads(data)
 
-for key, value in gpu_dict['device:0'].items():
-    if key == 'Device Name':
-        temp = value.split(' ')
-        device_name = '_'.join(temp)
-    df[key] = np.array([value for i in range(df.shape[0])]).T
+    for key, value in bow_dict.items():
+        df[key] = np.array([value for i in range(df.shape[0])]).T
 
-f = open(args[3])  # bag of words file
-data = json.load(f)
-bow_dict = json.loads(data)
+    result.append(df)
+    print('Joined {}, {}, {} & {}'.format(raw_file, prof_file, gpu_file, bow_file))
 
-for key, value in bow_dict.items():
-    df[key] = np.array([value for i in range(df.shape[0])]).T
-
-filename = 'readings/{}_{}_final.csv'.format(task, device_name)
-
-df.to_csv(filename, index = False)
+filename = 'readings/{}_final.csv'.format(task_name)
+final_df = pd.concat(result)
+final_df.to_csv(filename, index = False)
 
 print('Created {}!'.format(filename))

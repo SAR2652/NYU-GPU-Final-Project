@@ -1,5 +1,4 @@
 from utils import GPUProfiler, ParseTreeGenerator
-import sys
 
 def getGPUDetails():
     gpu = GPUProfiler()
