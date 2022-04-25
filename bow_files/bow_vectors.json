@@ -1,0 +1,1 @@
+"{\n    \"float\": 28,\n    \"unsigned_int\": 0,\n    \"int\": 26,\n    \"num_blocks\": 0,\n    \"num_grid\": 0,\n    \"threads\": 10,\n    \"cudaMalloc\": 3,\n    \"cudaMemcpy\": 8,\n    \"cudaFree\": 3,\n    \"+\": 4,\n    \"for\": 1,\n    \"-\": 0,\n    \"*\": 3,\n    \"/\": 0\n}"
