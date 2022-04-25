@@ -44,10 +44,15 @@ for i in range(len(raw_files)):
 
     relevant = ['[CUDA memcpy DtoH]', '[CUDA memcpy HtoD]', 'cudaMemcpy', 'cudaMalloc', 'cudaFree']
 
+    dims = None
     for row in pf.values:
         if row[-1] in relevant:
             for j in range(len(cols[:-1])):
-                df[row[-1] + ' ' + cols[j]] = np.array([row[j]] * df.shape[0]).T
+                if task_name == 'matrix_multiplication' or task_name == 'matrix_sum':
+                    dims = 8192 * 8192
+                elif task_name == 'vector_addition':
+                    dims = 1000000
+                df[row[-1] + ' ' + cols[j]] = np.array([float(row[j]) / dims * 1000] * df.shape[0]).T
     
     """GPU Details File"""
     gpu_file = os.path.join(gpu_folder, gpu_info_files[i])

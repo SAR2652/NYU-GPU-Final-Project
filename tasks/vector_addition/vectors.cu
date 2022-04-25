@@ -88,7 +88,7 @@ int main(int argc, char *argv[]){
 		6. free ad, bd, and cd
 	*/
 
-	
+    start = clock();
 	cudaMalloc((void **)&ad, n*sizeof(float));
 
 	cudaMalloc((void **)&bd, n*sizeof(float));
@@ -99,13 +99,13 @@ int main(int argc, char *argv[]){
 	cudaMemcpy(bd, b, n*sizeof(float), cudaMemcpyHostToDevice);
 	cudaMemcpy(cd, c, n*sizeof(float), cudaMemcpyHostToDevice);
 	vecGPU<<<numblocks, threadsperblock>>> (ad,bd,cd,n,num_comps);
-	start = clock();
+	// start = clock();
 	cudaMemcpy(c, cd, n*sizeof(float), cudaMemcpyDeviceToHost);
-	end = clock();
 	cudaFree(ad);
 	cudaFree(bd);
 	cudaFree(cd);
-	printf("%lf\n", (double)(end - start) / CLOCKS_PER_SEC);
+    end = clock();
+	printf("%.8f", (double)(end - start) / CLOCKS_PER_SEC);
 	/******************  The end of the GPU part: Do not modify anything in main() below this line  ************/
 	
 	//checking the correctness of the GPU part
