@@ -20,9 +20,9 @@ data_point.append(dimensions)
 data_point.append(blocks)
 data_point.append(threads)
 
-le = pickle.load(open('label_encoder.pickle', 'rb'))
+oe = pickle.load(open('ordinal_encoder.pickle', 'rb'))
 
-gpu_le = le.transform(np.array([gpu_dict['Device Name']]).reshape(-1, 1))[0]
+gpu_le = oe.transform(np.array([gpu_dict['Device Name']]).reshape(-1, 1))[0]
 
 data_point.append(gpu_le)
 
