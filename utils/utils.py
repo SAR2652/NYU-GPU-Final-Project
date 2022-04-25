@@ -1,12 +1,11 @@
-import subprocess
-import json
+import subprocess, json, socket
 
 class GPUProfiler:
     def __init__(self):
         result = subprocess.run('./getDeviceProp.sh', stdout = subprocess.PIPE)
         self.content = result.stdout.decode('utf-8')
         self.data = None
-        self.device_name = None
+        self.device_name = socket.gethostname().split('.', 1)[0]
     
     def getDevicePropDict(self):
         if self.data != None:
@@ -20,8 +19,6 @@ class GPUProfiler:
                 current_device = 'device:{}'.format(value)
                 self.data[current_device] = dict()
             else:
-                if key == 'Device Name':
-                    self.device_name = '_'.join(value.split(' '))
                 if any(c.isalpha() for c in value):
                     self.data[current_device][key] = value
                 else:
