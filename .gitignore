@@ -3,3 +3,4 @@ __pycache__
 other/
 .DS_Store
 readings/.DS_Store
+.vscode
