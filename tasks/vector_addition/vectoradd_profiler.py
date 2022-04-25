@@ -1,7 +1,7 @@
 import subprocess
 import socket
 
-result = subprocess.run("./vectoradd_prof.sh", stdout = subprocess.PIPE)
+result = subprocess.run("./vectoradd_profiler.sh", stdout = subprocess.PIPE)
 
 with open('vectoradd_prof_details.txt') as f:
     lines = f.readlines()

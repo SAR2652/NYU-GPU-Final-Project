@@ -1,2 +1,3 @@
 #!/bin/bash
-nvprof --csv --log-file vectoradd_prof_details.txt ./vectoradd 1000000 8 128
+nvcc -o vectorprog vectors.cu
+nvprof --csv --log-file vectoradd_prof_details.txt ./vectorprog 1000000 8 128
