@@ -51,18 +51,16 @@ int main(int argc, char* argv[])
   srand48(42);
 
   // allocate host memory for matrices A and B
-  printf("Allocate host memory for matrices A and B...\n");
   float* A = (float*) malloc(N * N * sizeof(float));
   float* B = (float*) malloc(N * N * sizeof(float));
   float* S = (float*) malloc(N * N * sizeof(float));
 
   // initialize host matrices
-  printf("Initialize host matrices...\n");
+  
   randomInit(A, N);
   randomInit(B, N);
 
   // allocate device matrices (linearized)
-  printf("Allocate device matrices (linearized)...\n");
   float* dev_A = NULL; 
   float* dev_B = NULL;
   float* dev_S = NULL;
@@ -75,7 +73,6 @@ int main(int argc, char* argv[])
   cudaMemcpy(dev_B, B, N*N*sizeof(float), cudaMemcpyHostToDevice);
 
   // execute the kernel
-  printf("Execute the kernel...\n");
 
   int GridSize = atoi(argv[2])
   dim3 gridDim(GridSize, GridSize);

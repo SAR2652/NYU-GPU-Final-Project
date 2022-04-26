@@ -53,7 +53,7 @@ for i in range(len(raw_files)):
                     dims = 8192 * 8192
                 elif task_name == 'vector_addition':
                     dims = 1000000
-                df[row[-1] + ' ' + cols[j]] = np.array([float(row[j]) / dims * 1000] * df.shape[0]).T
+                df[row[-1] + ' ' + cols[j] + ' cost'] = np.array([float(row[j]) / dims * 1000] * df.shape[0]).T
     
     """GPU Details File"""
     gpu_file = os.path.join(gpu_folder, gpu_info_files[i])
