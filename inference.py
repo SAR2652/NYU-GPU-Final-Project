@@ -17,7 +17,7 @@ data_point = []
 """User Input Section"""
 dimensions = int(input("Enter dimensions of input: "))
 blocks = int(input("Enter number of blocks: "))
-threads = int(input("Enter number of threads: "))
+threads = int(input("Enter number of threads per block: "))
 
 data_point.append(dimensions)
 data_point.append(blocks)

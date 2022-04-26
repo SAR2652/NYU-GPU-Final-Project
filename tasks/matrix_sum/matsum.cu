@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 {
 
   if (argc != 3) {
-    fprintf(stderr, "Syntax: %s <matrix size> <CacheConfL1>  <device> \n", argv[0]);
+    // fprintf(stderr, "Syntax: %s <matrix size> <CacheConfL1>  <device> \n", argv[0]);
     return EXIT_FAILURE;
   }
 
@@ -95,6 +95,6 @@ int main(int argc, char* argv[])
   cudaFree(dev_A);
   cudaFree(dev_B);
   cudaFree(dev_S);
-  printf("Total time taken by the GPU part = %lf\n", (double)(end - start) / CLOCKS_PER_SEC);
+  printf("%.8f\n", (double)(end - start) / CLOCKS_PER_SEC);
   return 0;
 }
