@@ -24,16 +24,12 @@ print("Time Taken for a Single Thread to execute for {} dimensions and {} blocks
 
 result = subprocess.run(["./" + exe, str(int), str(blocks), str(threads)], stdout = subprocess.PIPE)
 
-subprocess.run(["rm", exe])
-
 content = result.stdout.decode('utf-8')
 
-actual_time = float(content)
+actual_time = float(content.strip())
 
 print("Time Taken for a {} threads per block to execute for {} dimensions and {} blocks = {}".format(threads, dims, blocks, actual_time))
 
 speedup = st_time / actual_time
 
 print("Actual Speedup: {}".format(speedup))
-
-
