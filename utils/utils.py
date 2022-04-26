@@ -1,8 +1,11 @@
-import subprocess, json, socket, shutil
+import os, subprocess, json, socket, shutil
 
 class GPUProfiler:
     def __init__(self):
-        result = subprocess.run('./getDeviceProp.sh', stdout = subprocess.PIPE)
+        proc = './getDeviceProp.sh'
+        if 'getDeviceProp.sh' not in os.listdir():
+            proc = './utils/getDeviceProp.sh'
+        result = subprocess.run(proc, stdout = subprocess.PIPE)
         self.content = result.stdout.decode('utf-8')
         self.data = None
         self.device_name = socket.gethostname().split('.', 1)[0]
