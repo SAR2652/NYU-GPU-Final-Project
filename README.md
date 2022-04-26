@@ -78,6 +78,12 @@ Try activating the environment again with the command:
 conda activate proj_env
 ```
 
+To disable conda's *base* environment from activating upon login, execute:
+
+```
+conda config --set auto_activate_base false
+```
+
 ## Predictions/Inference:
 The file ```inference.py``` is used to predict the speedup for a given file passed as an argument which contains CUDA C/C++ code. Predictions can be obtained using the following command:<br>
 ```
