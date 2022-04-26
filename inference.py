@@ -65,7 +65,9 @@ gpu = GPUProfiler()
 gpu_dict = gpu.getDevicePropDict()
 oe = pickle.load(open('utils/gpu_encoder.pickle', 'rb'))
 
-for key, value in gpu_dict.items():
+gpu_details = gpu_dict['device:0']
+
+for key, value in gpu_details.items():
     if key == 'Device Name':
         gpu_oe = oe.transform([gpu_dict['Device Name']])[0][0]
         data_point.append(gpu_oe)
@@ -81,8 +83,8 @@ for _, value in identity_dict.items():
 
 rf_model = pickle.load(open('random_forest_model.pickle', 'rb'))
 
-print(data_point)
+# print(data_point)
 
-# prediction = rf_model.predict([data_point])
+prediction = rf_model.predict([data_point])
 
-# print('Approximate Time taken by the code to execute will be {} seconds'.format(prediction[0][0]))
+print('Approximate Time taken by the code to execute will be {} seconds'.format(prediction[0][0]))
