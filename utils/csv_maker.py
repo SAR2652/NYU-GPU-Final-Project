@@ -19,18 +19,19 @@ result = []
 for i in range(len(raw_files)):
     """Raw Computations File"""
     raw_file = os.path.join(task, raw_files[i])
-    df = pd.read_csv(raw_file)
-    df.columns = ['Dimensions', 'Blocks', 'Threads', 'Time']
+    df = pd.read_csv(raw_file, names = ['Dimensions', 'Blocks', 'Threads', 'Time'], header = None)
     strs = df[['Dimensions', 'Threads', 'Time']][df['Threads'] == 1]
     indices = strs.index.tolist()
 
     speedup = df['Time'].tolist()
     times = df['Time'].tolist()
     count = 0
+    
     for j in range(len(speedup)):
-        if j > 0 and j in indices == 0:
+        if j > 0 and j in indices:
             count += 1
-        speedup[j] /= times[indices[count]]
+        if count < len(indices):
+            speedup[j] = times[indices[count]] / speedup[j]
 
     df['Speedup'] = np.array(speedup).T
 
