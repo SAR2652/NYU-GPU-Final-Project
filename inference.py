@@ -69,7 +69,7 @@ gpu_details = gpu_dict['device:0']
 
 for key, value in gpu_details.items():
     if key == 'Device Name':
-        gpu_oe = oe.transform([gpu_dict['Device Name']])[0][0]
+        gpu_oe = oe.transform([[gpu_details['Device Name']]])[0][0]
         data_point.append(gpu_oe)
     else:
         data_point.append(value)
