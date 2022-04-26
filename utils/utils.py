@@ -76,7 +76,7 @@ class BagOfWordsGenerator:
         for line in lines:
             x = line.split()
             for identity in x:
-                for key, _ in self.all_identifiers.items():
+                for key, value in self.all_identifiers.items():
                     if key in identity and key not in self.all_kernel_identifier: # exclude cpu for loops and operations
                         self.all_identifiers[key] += 1
 
