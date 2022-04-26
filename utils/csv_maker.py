@@ -28,10 +28,10 @@ for i in range(len(raw_files)):
     count = 0
     
     for j in range(len(speedup)):
-        if j > 0 and j in indices:
+        if j > 0 and j in indices and count < len(indices) - 1:
             count += 1
-        if count < len(indices):
-            speedup[j] = times[indices[count]] / speedup[j]
+
+        speedup[j] = times[indices[count]] / speedup[j]
 
     df['Speedup'] = np.array(speedup).T
 
