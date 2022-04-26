@@ -76,7 +76,7 @@ for key, value in gpu_dict.items():
 bow = BagOfWordsGenerator(code_file)
 identity_dict = bow.getBOW()
 
-for _, value in identity_dict:
+for _, value in identity_dict.items():
     data_point.append(value)
 
 rf_model = pickle.load(open('random_forest_model.pickle', 'rb'))
