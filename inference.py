@@ -86,7 +86,7 @@ rf_model = pickle.load(open('random_forest_model.pickle', 'rb'))
 
 # print(data_point)
 
-dp = sc.transform(np.array(data_point))
+dp = sc.transform(np.array(data_point).reshape(1, -1))
 
 prediction = rf_model.predict([list(data_point)])
 
