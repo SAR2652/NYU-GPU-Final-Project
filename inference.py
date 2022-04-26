@@ -81,7 +81,7 @@ identity_dict = bow.getBOW()
 for _, value in identity_dict.items():
     data_point.append(value)
 
-sc = pickle.load(open('min_max_scaler.pickle', 'rb'))
+sc = pickle.load(open('utils/min_max_scaler.pickle', 'rb'))
 rf_model = pickle.load(open('random_forest_model.pickle', 'rb'))
 
 # print(data_point)
