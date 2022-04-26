@@ -10,7 +10,7 @@ threads = int(input("Enter the number of threads per block:"))
 
 print("Please make sure that your argument file does not print anything except for the time taken for execution!")
 
-exe = file.split('/')[-1].split('.')[0]
+exe = file.split('.')[0]
 
 subprocess.run(["nvcc", "-o", exe, file])
 

@@ -35,10 +35,10 @@ void randomInit(float* data, int N) {
 int main(int argc, char* argv[])
 {
 
-  if (argc != 3) {
-    // fprintf(stderr, "Syntax: %s <matrix size> <CacheConfL1>  <device> \n", argv[0]);
-    return EXIT_FAILURE;
-  }
+//   if (argc != 3) {
+//     // fprintf(stderr, "Syntax: %s <matrix size> <CacheConfL1>  <device> \n", argv[0]);
+//     return EXIT_FAILURE;
+//   }
 
   clock_t start, end; 
   int N = atoi(argv[1]);
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 
   // execute the kernel
 
-  int GridSize = atoi(argv[2])
+  int GridSize = atoi(argv[2]);
   dim3 gridDim(GridSize, GridSize);
   dim3 blockDim(Tile_Width, Tile_Width);
   start = clock();
