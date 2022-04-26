@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 
   end = clock();
   double time_taken = (double)(end - start) / CLOCKS_PER_SEC;
-  printf("%lf\n%d\n", time_taken, GridSize);
+  printf("%.8f", time_taken);
 
   free(M);
   free(N);
