@@ -48,7 +48,7 @@ for file in prof_files:
 
 prof_filepath = os.path.join(prof_path, prof_file)
 
-profiling_features = ['[CUDA memcpy HtoD]', '[CUDA memcpy DtoH]', 'cudaMalloc', 'cudaMemcpy' 'cudaFree']
+profiling_features = ['[CUDA memcpy HtoD]', '[CUDA memcpy DtoH]', 'cudaMalloc', 'cudaMemcpy', 'cudaFree']
 
 df = pd.read_csv(prof_filepath)
 
