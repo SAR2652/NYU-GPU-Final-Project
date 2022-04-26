@@ -81,6 +81,8 @@ for _, value in identity_dict.items():
 
 rf_model = pickle.load(open('random_forest_model.pickle', 'rb'))
 
+print(data_point)
+
 # prediction = rf_model.predict([data_point])
 
 # print('Approximate Time taken by the code to execute will be {} seconds'.format(prediction[0][0]))
