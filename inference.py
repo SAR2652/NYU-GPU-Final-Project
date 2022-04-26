@@ -88,6 +88,6 @@ rf_model = pickle.load(open('random_forest_model.pickle', 'rb'))
 
 dp = sc.transform(np.array(data_point).reshape(1, -1))
 
-prediction = rf_model.predict([list(dp)])
+prediction = rf_model.predict(dp)
 
 print('Approximate Speedup Ratio w.r.t a single thread will be {}'.format(prediction[0]))
