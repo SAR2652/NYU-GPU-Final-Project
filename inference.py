@@ -81,10 +81,13 @@ identity_dict = bow.getBOW()
 for _, value in identity_dict.items():
     data_point.append(value)
 
+sc = pickle.load(open('min_max_scaler.pickle', 'rb'))
 rf_model = pickle.load(open('random_forest_model.pickle', 'rb'))
 
 # print(data_point)
 
-prediction = rf_model.predict([data_point])
+dp = sc.transform(np.array(data_point).reshape(-1, 1))
 
-print('Approximate Time taken by the code to execute will be {} seconds'.format(prediction[0]))
+prediction = rf_model.predict([list(data_point)])
+
+print('Approximate Speedup Ratio w.r.t a single thread will be {}'.format(prediction[0]))
